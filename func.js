@@ -548,3 +548,51 @@ let array = [
   let treeData = translateTree(array);
 
   console.log(treeData);
+
+(function test(){
+  const translate = (values) => {
+    const list = [];
+    const keys = [];
+    const obj = {};
+    for (const [key, value] of Object.entries(values)) {
+      if (key !== 'type' && Array.isArray(value)) {
+        keys.push(key);
+      } else {
+        obj[key] = value;
+      }
+    }
+    let flag = false;
+    keys.length && keys.forEach((item) => {
+      const temp = values[item];
+      let index = 0;
+      temp.forEach((subItem) => {
+        if (flag) {
+          const tmp = list[index];
+          tmp[item] = subItem;
+          index++;
+        } else {
+          list.push({ [item]: subItem });
+        }
+      });
+      flag = true;
+    });
+    obj.list = list;
+    return obj;
+  }
+
+  const values = {
+    a: "test",
+    b: {
+      b1: "children b1",
+      b2: "children b2"
+    },
+    c1: ["11", "22", "33", "44"],
+    c2: ["11", "22", "33", "44"],
+    c3: ["11", "22", "33", "44"],
+    c4: ["11", "22", "33", "44"]
+  }
+
+  let translateData = translate(values);
+  console.log(translateData, "test translateData")
+})()
+
